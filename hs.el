@@ -6,6 +6,8 @@
 ;;; Tested under OS X.
 ;;; For better effects: hs.mp3 (the Harlem Shake music) in current directory.
 ;;;
+;;; Bugs:
+;;;  - doesn't maintain font-size
 
 (defvar hs-face-widths
   '(ultra-condensed extra-condensed condensed
@@ -19,19 +21,19 @@
 (defvar hs-face-colors
   '("Yellow" "Red" "Orange" "Blue" "Green" "Black" "White"))
 
-(defun rand-elt (list)
+(defun hs-rand-elt (list)
   (nth (random (length list)) list))
 
 (defun hs-change (i &optional no-color)
   (let ((ch (char-to-string (char-before (point))))
         (olay (car (overlays-at (point))))
         (olay-face-params
-         (list ;:width (rand-elt hs-face-widths)
-               :height (rand-elt '(80 100 120 140 160 180))
-                ;:weight (rand-elt hs-face-weights)
+         (list ;:width (hs-rand-elt hs-face-widths)
+               :height (hs-rand-elt '(80 100 120 140 160 180))
+                ;:weight (hs-rand-elt hs-face-weights)
                )))
     (unless no-color
-      (push (rand-elt hs-face-colors) olay-face-params)
+      (push (hs-rand-elt hs-face-colors) olay-face-params)
       (push :foreground olay-face-params))
     (when (null olay)
       (setq olay (make-overlay (point) (1+ (point)))))
